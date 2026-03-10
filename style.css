@@ -1,0 +1,103 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+/* 1. 기본 설정: 모든 요소의 여백을 초기화하고 깔끔한 폰트 적용 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    word-break: keep-all;
+}
+
+/* 부드러운 스크롤 효과 및 스크롤 스냅 설정 */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; 
+}
+/* 2. 전체 배경 및 텍스트 색상 (미니멀 다크 테마) */
+body {
+    background-color: #121212; /* 눈이 편안한 짙은 어두운 색 */
+    color: #e0e0e0; /* 너무 밝지 않은 연한 회색 텍스트 */
+    line-height: 1.6;
+}
+
+/* 3. 상단 네비게이션 바 (스크롤해도 위에 고정되도록 설정) */
+header {
+    background-color: #1e1e1e;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky; /* 스크롤 시 상단 고정 */
+    top: 0;
+    border-bottom: 1px solid #333;
+}
+
+/* 로고(이름)에 포인트 컬러 주기 */
+header h1 {
+    color: #64ffda; /* 개발자 포트폴리오에 자주 쓰이는 민트색 포인트 */
+    font-size: 1.5rem;
+}
+
+/* 메뉴 버튼 가로 정렬 및 디자인 */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #e0e0e0;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    font-weight: 600;
+    transition: color 0.3s ease; /* 색상이 부드럽게 변하는 애니메이션 */
+}
+
+/* 메뉴에 마우스를 올렸을 때의 변화 */
+nav a:hover {
+    color: #64ffda;
+}
+
+/* 4. 메인 콘텐츠 섹션 정렬 (풀 페이지 스크롤 적용) */
+section, footer {
+    height: calc(100vh - 80px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    
+    padding: 0 20px;
+    max-width: 800px; 
+    margin: 0 auto; 
+    border-bottom: none; 
+}
+
+/* 제목 스타일 */
+h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #64ffda;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+/* 5. 프로젝트 리스트 스타일 */
+ul {
+    padding-left: 20px;
+}
+
+/* 6. 하단 연락처 영역 */
+footer {
+    text-align: center;
+    border-bottom: none;
+}
+/* 현재 보고 있는 섹션의 메뉴 색상 강조 */
+nav a.active {
+    color: #64ffda;
+    border-bottom: 2px solid #64ffda;
+    padding-bottom: 5px;
+}
