@@ -70,13 +70,13 @@ emailLink.addEventListener('click', (e) => {
     e.preventDefault(); 
     
     // 복사할 이메일 주소
-    const myEmail = 'your-email@example.com'; 
+    const myEmail = 'choeyunhyeog8@gmail.com'; 
     
     navigator.clipboard.writeText(myEmail).then(() => {
         // 복사가 성공하면 토스트 알림창 나타내기
         toast.classList.add('show');
         
-        // 3초(3000 밀리초) 뒤에 토스트 알림창 다시 숨기기
+        // 1.5초(1500 밀리초) 뒤에 토스트 알림창 다시 숨기기
         setTimeout(() => {
             toast.classList.remove('show');
         }, 1500);
