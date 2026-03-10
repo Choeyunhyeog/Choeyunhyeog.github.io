@@ -1,20 +1,20 @@
+// --- [A] 기존 풀 페이지 스크롤 기능 (새 섹션 반영 업데이트) ---
+
 // 1. 감지할 모든 섹션과 네비게이션 링크들을 찾습니다.
 const sections = document.querySelectorAll('section, footer');
-const sectionsArray = Array.from(sections); 
+const sectionsArray = Array.from(sections);
 const navLinks = document.querySelectorAll('header nav a');
 
-let currentSectionIndex = 0; // 현재 보고 있는 화면의 순서
-let isScrolling = false; // 마우스 휠 연속 입력을 막기 위한 쿨타임 변수
+let currentSectionIndex = 0;
+let isScrolling = false;
 
-// 2. 화면을 감시하는 '관찰자(Observer)' 설정 (메뉴 색상 변경용)
+// 2. 화면을 감시하는 '관찰자(Observer)' 설정 (메뉴 색상 변경 및 페이드인)
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
             const id = entry.target.getAttribute('id');
-            
-            // 상단 메뉴를 클릭해서 이동했을 때를 대비해 현재 순서를 동기화합니다.
             currentSectionIndex = sectionsArray.indexOf(entry.target);
-
             history.replaceState(null, null, `#${id}`);
             
             navLinks.forEach(link => {
@@ -23,6 +23,8 @@ const observer = new IntersectionObserver((entries) => {
                     link.classList.add('active');
                 }
             });
+        } else {
+            entry.target.classList.remove('visible');
         }
     });
 }, { threshold: 0.5 });
@@ -31,57 +33,92 @@ sections.forEach(section => observer.observe(section));
 
 // 3. 마우스 휠을 직접 제어하여 부드러운 풀 페이지 스크롤 구현
 window.addEventListener('wheel', (e) => {
-    e.preventDefault(); // 브라우저의 거칠고 기본 적인 휠 스크롤을 막습니다.
+    e.preventDefault();
+    if (isScrolling) return;
 
-    if (isScrolling) return; // 화면이 부드럽게 이동 중일 때는 마우스 휠 입력을 무시합니다.
-
-    // 휠을 아래로 굴렸을 때
     if (e.deltaY > 0) { 
         if (currentSectionIndex < sectionsArray.length - 1) {
             currentSectionIndex++;
         }
-    } 
-    // 휠을 위로 굴렸을 때
-    else { 
+    } else { 
         if (currentSectionIndex > 0) {
             currentSectionIndex--;
         }
     }
 
     isScrolling = true;
-
-    // 헤더 높이(80px)를 뺀 정확한 위치로 부드럽게 이동시킵니다.
     const targetY = sectionsArray[currentSectionIndex].offsetTop - 80;
     window.scrollTo({
         top: targetY,
         behavior: 'smooth'
     });
 
-    // 스크롤 애니메이션이 끝날 때쯤(0.8초 후) 다시 휠을 굴릴 수 있도록 쿨타임을 해제합니다.
     setTimeout(() => {
         isScrolling = false;
     }, 800); 
 }, { passive: false });
-// 4. 이메일 클립보드 자동 복사 및 토스트 알림 기능
-const emailLink = document.getElementById('email-link');
-const toast = document.getElementById('toast'); // 토스트 알림창 요소 찾기
 
-emailLink.addEventListener('click', (e) => {
-    e.preventDefault(); 
-    
-    // 복사할 이메일 주소
-    const myEmail = 'choeyunhyeog8@gmail.com'; 
-    
-    navigator.clipboard.writeText(myEmail).then(() => {
-        // 복사가 성공하면 토스트 알림창 나타내기
-        toast.classList.add('show');
-        
-        // 1.5초(1500 밀리초) 뒤에 토스트 알림창 다시 숨기기
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 1500);
-        
-    }).catch(err => {
-        alert('이메일 복사에 실패했습니다.'); // 혹시 모를 에러 대비
+
+// --- [B] 기존 이메일 클립보드 자동 복사 및 토스트 알림 기능 (유지) ---
+
+const emailLink = document.getElementById('email-link');
+const toast = document.getElementById('toast');
+
+if (emailLink && toast) { // 요소가 있을 때만 실행 (안전)
+    emailLink.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        const myEmail = 'your-email@example.com'; 
+        navigator.clipboard.writeText(myEmail).then(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000); // 2초 뒤에 사라짐
+        }).catch(err => {
+            alert('이메일 복사에 실패했습니다.');
+        });
     });
-});
+}
+
+
+// --- [C] 🌋🆕 친구 화산 분출 기능 (새로운 기능!) ---
+
+const eruptBtn = document.getElementById('erupt-btn');
+const volcanoContainer = document.getElementById('volcano-container');
+// 숨겨둔 친구 사진 리스트 찾기
+const friendPhotoSource = document.querySelectorAll('.friend-photo');
+
+if (eruptBtn && volcanoContainer) {
+    eruptBtn.addEventListener('click', () => {
+        // 친구 한 명당 사진을 5개씩 총 25개 폭발시킵니다. (마음껏 조절 가능)
+        for (let i = 0; i < 40; i++) {
+            // 원본 사진 중 랜덤으로 하나 선택
+            const randomIndex = Math.floor(Math.random() * friendPhotoSource.length);
+            const sourceImg = friendPhotoSource[randomIndex];
+
+            // 1. 새로운 이미지 요소를 복사(clone)해서 만듭니다.
+            const explodedImg = sourceImg.cloneNode(true);
+            explodedImg.classList.remove('friend-photo');
+            explodedImg.classList.add('exploded-photo'); // 애니메이션용 클래스 붙임
+
+            // 2. 🌟 더 높이, 더 넓게 솟구치도록 힘 계산 수정
+            // --vx: 좌우 퍼짐을 더 넓게 (-300px ~ +300px)
+            const vx = (Math.random() - 0.5) * 2000; 
+            // --vy: 위로 솟구치는 힘을 약 2배 더 높게! (-600px ~ -1100px)
+            const vy = -(Math.random() * 500 + 1600); 
+            const delay = Math.random() * 0.3;
+
+            explodedImg.style.setProperty('--vx', `${vx}px`);
+            explodedImg.style.setProperty('--vy', `${vy}px`);
+            
+            // 🌟 애니메이션 지속 시간을 2s에서 4s로 늘려 체공 시간을 길게 만듭니다.
+            explodedImg.style.animation = `eruptAnimation 4s ease-out ${delay}s forwards`;
+
+            volcanoContainer.appendChild(explodedImg);
+
+            // 4. 🌟 사진이 화면에 오래 머무르므로, 삭제되는 시간도 2500에서 4500(4.5초)으로 넉넉하게 늘려줍니다.
+            setTimeout(() => {
+                explodedImg.remove();
+            }, 4500);
+        }
+    });
+}
