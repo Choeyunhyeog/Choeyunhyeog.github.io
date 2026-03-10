@@ -101,3 +101,44 @@ nav a.active {
     border-bottom: 2px solid #64ffda;
     padding-bottom: 5px;
 }
+/* Contact 섹션 하이퍼링크 스타일 */
+footer a {
+    color: #64ffda; /* 포인트 컬러인 민트색 적용 */
+    text-decoration: none; /* 기본 밑줄 제거 */
+    transition: all 0.3s ease; /* 부드러운 애니메이션 효과 */
+}
+
+/* 링크에 마우스를 올렸을 때의 변화 */
+footer a:hover {
+    color: #ffffff; /* 글씨가 흰색으로 밝아짐 */
+    text-decoration: underline; /* 마우스가 올라갔을 때만 밑줄 표시 */
+}
+/* 7. 커스텀 토스트 알림창 스타일 (제자리 페이드아웃 애니메이션) */
+#toast {
+    position: fixed;
+    bottom: 50px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    
+    background-color: #1e1e1e; 
+    color: #64ffda; 
+    padding: 12px 24px;
+    border-radius: 8px; 
+    border: 1px solid #64ffda; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+    
+    font-weight: 600;
+    z-index: 1000; 
+
+    opacity: 0; 
+    visibility: hidden;
+    
+    /* 👇 바로 이 부분을 all로 수정합니다 👇 */
+    transition: all 0.5s ease; 
+}
+
+#toast.show {
+    opacity: 1;
+    visibility: visible;
+    bottom: 50px; 
+}

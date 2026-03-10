@@ -62,3 +62,26 @@ window.addEventListener('wheel', (e) => {
         isScrolling = false;
     }, 800); 
 }, { passive: false });
+// 4. 이메일 클립보드 자동 복사 및 토스트 알림 기능
+const emailLink = document.getElementById('email-link');
+const toast = document.getElementById('toast'); // 토스트 알림창 요소 찾기
+
+emailLink.addEventListener('click', (e) => {
+    e.preventDefault(); 
+    
+    // 복사할 이메일 주소
+    const myEmail = 'your-email@example.com'; 
+    
+    navigator.clipboard.writeText(myEmail).then(() => {
+        // 복사가 성공하면 토스트 알림창 나타내기
+        toast.classList.add('show');
+        
+        // 3초(3000 밀리초) 뒤에 토스트 알림창 다시 숨기기
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 1500);
+        
+    }).catch(err => {
+        alert('이메일 복사에 실패했습니다.'); // 혹시 모를 에러 대비
+    });
+});
