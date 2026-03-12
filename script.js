@@ -8,7 +8,7 @@ const navLinks = document.querySelectorAll('header nav a');
 let currentSectionIndex = 0;
 let isScrolling = false;
 
-// 2. 화면을 감시하는 '관찰자(Observer)' 설정 (메뉴 색상 변경 및 페이드인)
+// 2. 화면을 감시하는 '관찰자(Observer)' 설정 (메뉴 색상 변경 및 페이드인)F
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -67,7 +67,7 @@ const toast = document.getElementById('toast');
 if (emailLink && toast) { // 요소가 있을 때만 실행 (안전)
     emailLink.addEventListener('click', (e) => {
         e.preventDefault(); 
-        const myEmail = 'your-email@example.com'; 
+        const myEmail = 'choeyunhyeog8@gmail.com'; 
         navigator.clipboard.writeText(myEmail).then(() => {
             toast.classList.add('show');
             setTimeout(() => {
